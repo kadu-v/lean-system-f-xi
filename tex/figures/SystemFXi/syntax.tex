@@ -1,21 +1,28 @@
 \begin{figure}[h]
     \begin{align*}
-         & \text{Value}       &  & v      &  & ::=  &  & x                                & \\
-         &                    &  &        &  & \mid &  & \lambda x : \sigma. e            & \\
-         &                    &  &        &  & \mid &  & \Lambda \alpha :: \kappa. e      & \\
-         & \text{Expression}  &  & e      &  & ::=  &  & x                                & \\
-         &                    &  &        &  & \mid &  & \lambda x : \sigma. e            & \\
-         &                    &  &        &  & \mid &  & e~e                              & \\
-         &                    &  &        &  & \mid &  & \Lambda \alpha :: \kappa. e      & \\
-         &                    &  &        &  & \mid &  & e\bktt{\sigma}                   & \\
-         & \text{Kind}        &  & \kappa &  & ::=  &  & \star                            & \\
-         & \text{Type}        &  & \sigma &  & ::=  &  & \alpha                           & \\
-         &                    &  &        &  & \mid &  & \sigma \rightarrow \sigma        & \\
-         &                    &  &        &  & \mid &  & \forall \alpha :: \kappa. \sigma & \\
-         & \text{Environment} &  & \Gamma &  & ::=  &  & \bullet                          & \\
-         &                    &  &        &  & \mid &  & x: \sigma, \Gamma                & \\
-         &                    &  &        &  & \mid &  & \alpha:: \kappa, \Gamma          &
+         & \text{Value}                     &  & v        &  & ::=  &  & x                                                                                         & \\
+         &                                  &  &          &  & \mid &  & \lambda x : \sigma. e                                                                     & \\
+         &                                  &  &          &  & \mid &  & \Lambda \alpha :: \kappa. e                                                               & \\
+         &                                  &  &          &  & \mid &  & \texttt{perform}~op                                                                       & \\
+         & \text{Expression}                &  & e        &  & ::=  &  & v                                                                                         & \\
+         &                                  &  &          &  & \mid &  & e~e                                                                                       & \\
+         &                                  &  &          &  & \mid &  & e\bktt{\sigma}                                                                            & \\
+         &                                  &  &          &  & \mid &  & \texttt{handle}~e~\texttt{with}~h                                                         & \\
+         & \text{Handler}                   &  & h        &  & ::=  &  & \{ \texttt{return}~x \mapsto e \}                                                         & \\
+         &                                  &  &          &  & \mid &  & \{ op(x; k) \mapsto e \}~\uplus~h                                                         & \\
+         & \text{Kind}                      &  & \kappa   &  & ::=  &  & \star                                                                                     & \\
+         &                                  &  &          &  & \mid &  & \bold{Eff}                                                                                & \\
+         & \text{Type}                      &  & \sigma   &  & ::=  &  & \alpha                                                                                    & \\
+         &                                  &  &          &  & \mid &  & \sigma \rightarrow~\epsilon~\sigma                                                        & \\
+         &                                  &  &          &  & \mid &  & \forall \alpha :: \kappa. \sigma                                                          & \\
+         & \text{Effect Sets}               &  & \epsilon &  & ::=  &  & \{E_1, E_2, \ldots, E_n\}                                                                 & \\
+         & \text{Effect Signature}          &  & \Sigma   &  & ::=  &  & \bullet                                                                                   & \\
+         &                                  &  &          &  & \mid &  & E_{n}: op: \forall \overline{\alpha :: \kappa}. \sigma \rightarrow \sigma ~\uplus~ \Sigma & \\
+         & \text{Term Variable Environment} &  & \Gamma   &  & ::=  &  & \bullet                                                                                   & \\
+         &                                  &  &          &  & \mid &  & x: \sigma, \Gamma                                                                         & \\
+         & \text{Type Variable Environment} &  & \Delta   &  & ::=  &  & \bullet                                                                                   & \\
+         &                                  &  &          &  & \mid &  & \alpha:: \kappa, \Delta                                                                   &
     \end{align*}
-    \caption{Syntax of System F}
+    \caption{Syntax of System F$^{\xi}$}
     \label{systemf:syntax}
 \end{figure}
