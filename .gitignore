@@ -10,3 +10,6 @@ tex/build/
 *.synctex.gz
 *.out
 *.toc
+
+# latexindent log
+indent.log
