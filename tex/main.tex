@@ -1,0 +1,22 @@
+\documentclass[a4paper,11pt]{ltjsarticle}
+
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{bussproofs}
+\usepackage{hyperref}
+
+\title{System F$_\xi$}
+\author{}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section{型規則}
+
+\begin{prooftree}
+  \AxiomC{$\Delta ; \Gamma, x : \sigma \vdash e : \tau$}
+  \RightLabel{(T-Abs)}
+  \UnaryInfC{$\Delta ; \Gamma \vdash \lambda x{:}\sigma.\, e : \sigma \to \tau$}
+\end{prooftree}
+
+\end{document}

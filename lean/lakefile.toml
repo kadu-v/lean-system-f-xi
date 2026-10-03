@@ -1,0 +1,6 @@
+name = "lean-system-f-xi"
+version = "0.1.0"
+defaultTargets = ["SystemFXi"]
+
+[[lean_lib]]
+name = "SystemFXi"

@@ -1,0 +1,12 @@
+# cache and other artifacts produced by Lean's Lake build tool
+lean/.lake/
+
+# LaTeX build artifacts
+tex/build/
+*.aux
+*.log
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.out
+*.toc
