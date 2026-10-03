@@ -1,22 +1,28 @@
 \documentclass[a4paper,11pt]{ltjsarticle}
 
+\usepackage[left=20mm,right=20mm,top=25mm,bottom=30mm]{geometry}
 \usepackage{amsmath,amssymb,amsthm}
 \usepackage{bussproofs}
 \usepackage{hyperref}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Macro
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\lbktt}{\texttt{[}}
+\newcommand{\rbktt}{\texttt{]}}
+\newcommand{\bktt}[1]{\texttt{[} #1 \texttt{]}}
+\newcommand{\dom}[1]{\mathbf{dom}(#1)}
+\newcommand{\fv}[1]{\mathbf{fv}(#1)}
+\newcommand{\ftv}[1]{\mathbf{ftv}(#1)}
+
 \title{System F$_\xi$}
-\author{}
+\author{Kazuki Ikemori}
 \date{\today}
 
 \begin{document}
 \maketitle
 
-\section{型規則}
-
-\begin{prooftree}
-  \AxiomC{$\Delta ; \Gamma, x : \sigma \vdash e : \tau$}
-  \RightLabel{(T-Abs)}
-  \UnaryInfC{$\Delta ; \Gamma \vdash \lambda x{:}\sigma.\, e : \sigma \to \tau$}
-\end{prooftree}
+\input{sections/SystemFXi}
 
 \end{document}

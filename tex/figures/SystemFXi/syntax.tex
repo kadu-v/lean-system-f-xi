@@ -1,0 +1,21 @@
+\begin{figure}[h]
+    \begin{align*}
+         & \text{Value}       &  & v      &  & ::=  &  & x                                & \\
+         &                    &  &        &  & \mid &  & \lambda x : \sigma. e            & \\
+         &                    &  &        &  & \mid &  & \Lambda \alpha :: \kappa. e      & \\
+         & \text{Expression}  &  & e      &  & ::=  &  & x                                & \\
+         &                    &  &        &  & \mid &  & \lambda x : \sigma. e            & \\
+         &                    &  &        &  & \mid &  & e~e                              & \\
+         &                    &  &        &  & \mid &  & \Lambda \alpha :: \kappa. e      & \\
+         &                    &  &        &  & \mid &  & e\bktt{\sigma}                   & \\
+         & \text{Kind}        &  & \kappa &  & ::=  &  & \star                            & \\
+         & \text{Type}        &  & \sigma &  & ::=  &  & \alpha                           & \\
+         &                    &  &        &  & \mid &  & \sigma \rightarrow \sigma        & \\
+         &                    &  &        &  & \mid &  & \forall \alpha :: \kappa. \sigma & \\
+         & \text{Environment} &  & \Gamma &  & ::=  &  & \bullet                          & \\
+         &                    &  &        &  & \mid &  & x: \sigma, \Gamma                & \\
+         &                    &  &        &  & \mid &  & \alpha:: \kappa, \Gamma          &
+    \end{align*}
+    \caption{Syntax of System F}
+    \label{systemf:syntax}
+\end{figure}

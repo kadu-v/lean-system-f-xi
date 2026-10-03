@@ -17,7 +17,8 @@
             "env": {}
           }
         ],
-        "latex-workshop.latex.outDir": "%DIR%/build"
+        "latex-workshop.latex.outDir": "%DIR%/build",
+        "latex-workshop.formatting.latex": "latexindent"
       }
     }
   }

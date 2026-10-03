@@ -1,0 +1,45 @@
+\begin{figure}[h]
+    \begin{tabular}{l}
+        \begin{minipage}{1.\linewidth{}}
+            \fbox{\ensuremath{\Gamma \vdash e : \sigma}}
+        \end{minipage}
+    \end{tabular}
+
+    \begin{center}
+        \AxiomC{$x: \sigma \in \Gamma$}
+        \RightLabel{[\textsc{TVar}]}
+        \UnaryInfC{$\Gamma \vdash x : \sigma$}
+        \DisplayProof
+        \hspace{10pt}
+        \AxiomC{$\Gamma, x: \sigma_1 \vdash e : \sigma_2$}
+        \RightLabel{[\textsc{TAbs}]}
+        \UnaryInfC{$\Gamma \vdash \lambda x: \sigma_1. e : \sigma_1 \rightarrow \sigma_2$}
+        \DisplayProof
+    \end{center}
+
+    \begin{center}
+        \AxiomC{$\Gamma \vdash e_1 : \sigma_1 \rightarrow \sigma_2$}
+        \AxiomC{$\Gamma \vdash e_2 : \sigma_1$}
+        \RightLabel{[\textsc{TApp}]}
+        \BinaryInfC{$\Gamma \vdash e_1 ~ e_2 : \sigma_2$}
+        \DisplayProof
+        \hspace{10pt}
+        \AxiomC{$\Gamma, \alpha :: \kappa \vdash e : \sigma$}
+        \RightLabel{[\textsc{TTAbs}]}
+        \UnaryInfC{$\Gamma \vdash \Lambda \alpha :: \kappa . e : \forall \alpha :: \kappa . \sigma$}
+        \DisplayProof
+        \vspace{10pt}
+    \end{center}
+
+    \begin{center}
+        \AxiomC{$\Gamma \vdash e : \forall \alpha :: \kappa . \sigma$}
+        \AxiomC{$\Gamma \vdash \sigma' :: \kappa$}
+        \RightLabel{[\textsc{TTApp}]}
+        \BinaryInfC{$\Gamma \vdash e \bktt{\sigma'} : [\alpha \mapsto \sigma']\sigma$}
+        \DisplayProof
+        \vspace{10pt}
+    \end{center}
+
+    \caption{Typing rules of System F}
+    \label{systemf:typing-rules}
+\end{figure}

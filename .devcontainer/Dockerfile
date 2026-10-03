@@ -4,7 +4,7 @@ RUN apt-get update \
     && apt-get install -y --no-install-recommends curl git ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
-# TeX Live（日本語・LuaLaTeX・数式/証明図用パッケージ）
+# TeX Live（日本語・LuaLaTeX・数式/証明図用パッケージ、整形用の latexindent）
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
         texlive-latex-recommended \
@@ -14,6 +14,9 @@ RUN apt-get update \
         texlive-science \
         texlive-fonts-recommended \
         texlive-fonts-extra \
+        texlive-extra-utils \
+        libyaml-tiny-perl \
+        libfile-homedir-perl \
         latexmk \
     && rm -rf /var/lib/apt/lists/*
 

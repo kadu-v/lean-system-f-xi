@@ -1,0 +1,30 @@
+\begin{figure}[h]
+    \begin{tabular}{l}
+        \begin{minipage}{1.\linewidth{}}
+            \fbox{\ensuremath{\Gamma \vdash \sigma :: \kappa}}
+        \end{minipage}
+    \end{tabular}
+
+    \begin{center}
+        \AxiomC{$\alpha :: \kappa \in \Gamma$}
+        \RightLabel{[\textsc{KTVar}]}
+        \UnaryInfC{$\Gamma \vdash \alpha :: \kappa$}
+        \DisplayProof
+        \hspace{10pt}
+        \AxiomC{$\Gamma \vdash \sigma_1 :: \star$}
+        \AxiomC{$\Gamma \vdash \sigma_2 :: \star$}
+        \RightLabel{[\textsc{KTAbs}]}
+        \BinaryInfC{$\Gamma \vdash \sigma_1 \rightarrow \sigma_2 :: \star$}
+        \DisplayProof
+    \end{center}
+
+    \begin{center}
+        \AxiomC{$\Gamma, \alpha :: \kappa \vdash \sigma :: \star$}
+        \RightLabel{[\textsc{KTTAbs}]}
+        \UnaryInfC{$\Gamma \vdash \forall \alpha :: \kappa. \sigma :: \star$}
+        \DisplayProof
+    \end{center}
+
+    \caption{Kinding rules of System F}
+    \label{systemf:kinding-rules}
+\end{figure}
