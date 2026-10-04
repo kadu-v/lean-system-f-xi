@@ -1,27 +1,28 @@
 \begin{figure}[h]
     \begin{tabular}{l}
         \begin{minipage}{1.\linewidth{}}
-            \fbox{\ensuremath{\Gamma \vdash \sigma :: \kappa}}
+            \fbox{\ensuremath{\Delta \vdash \sigma :: \kappa}}
         \end{minipage}
     \end{tabular}
 
     \begin{center}
-        \AxiomC{$\alpha :: \kappa \in \Gamma$}
+        \AxiomC{$\alpha :: \kappa \in \Delta$}
         \RightLabel{[\textsc{KTVar}]}
-        \UnaryInfC{$\Gamma \vdash \alpha :: \kappa$}
+        \UnaryInfC{$\Delta \vdash \alpha :: \kappa$}
         \DisplayProof
         \hspace{10pt}
-        \AxiomC{$\Gamma \vdash \sigma_1 :: \star$}
-        \AxiomC{$\Gamma \vdash \sigma_2 :: \star$}
+        \AxiomC{$\Delta \vdash \sigma_1 :: \bold{T}$}
+        \AxiomC{$\Delta \vdash \sigma_2 :: \bold{T}$}
+        \AxiomC{$\Delta \vdash \epsilon :: \bold{E}$}
         \RightLabel{[\textsc{KTAbs}]}
-        \BinaryInfC{$\Gamma \vdash \sigma_1 \rightarrow \sigma_2 :: \star$}
+        \TrinaryInfC{$\Delta \vdash \sigma_1 \rightarrow~\epsilon~\sigma_2 :: \bold{T}$}
         \DisplayProof
     \end{center}
 
     \begin{center}
-        \AxiomC{$\Gamma, \alpha :: \kappa \vdash \sigma :: \star$}
+        \AxiomC{$\Delta, \alpha :: \kappa \vdash \sigma :: \bold{T}$}
         \RightLabel{[\textsc{KTTAbs}]}
-        \UnaryInfC{$\Gamma \vdash \forall \alpha :: \kappa. \sigma :: \star$}
+        \UnaryInfC{$\Delta \vdash \forall \alpha :: \kappa. \sigma :: \bold{T}$}
         \DisplayProof
     \end{center}
 

@@ -2,10 +2,19 @@
   "name": "Lean 4 + TeX",
   "build": { "dockerfile": "Dockerfile" },
   "remoteUser": "vscode",
+  "features": {
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "installZsh": true,
+      "configureZshAsDefaultShell": true,
+      "installOhMyZsh": true,
+      "username": "vscode"
+    }
+  },
   "customizations": {
     "vscode": {
       "extensions": ["leanprover.lean4", "James-Yu.latex-workshop"],
       "settings": {
+        "terminal.integrated.defaultProfile.linux": "zsh",
         "latex-workshop.latex.recipes": [
           { "name": "latexmk", "tools": ["latexmk"] }
         ],
