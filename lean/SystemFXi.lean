@@ -1,9 +1,11 @@
-import SystemFXi.Basic
+import SystemFXi.Safety
 
 /-!
-# SystemFXi
+# System Fξ
 
-| モジュール         | 内容       |
-|--------------------|------------|
-| `SystemFXi.Basic`  | 初期セットアップ確認用 |
+`SystemFXi.Safety` までの全モジュールを公開する。
+
+* `SystemFXi.Syntax`, `Substitution`, `Typing`, `Semantics` — 言語の定義
+* `SystemFXi.Subtyping`, `TypeLemmas`, `TermLemmas` — 基本補題
+* `SystemFXi.Progress`, `Preservation`, `Safety` — 型安全性と効果安全性
 -/
