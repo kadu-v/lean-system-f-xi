@@ -3,19 +3,18 @@
          & \text{Value}                     &  & v        &  & ::=  &  & x                                                                                                    & \\
          &                                  &  &          &  & \mid &  & \lambda x : \sigma. e                                                                                & \\
          &                                  &  &          &  & \mid &  & \Lambda \alpha :: \kappa. e                                                                          & \\
-         &                                  &  &          &  & \mid &  & \texttt{perform}~\textbf{\texttt{op}}                                                                & \\
          & \text{Expression}                &  & e        &  & ::=  &  & v                                                                                                    & \\
          &                                  &  &          &  & \mid &  & e~e                                                                                                  & \\
          &                                  &  &          &  & \mid &  & e\bktt{\sigma}                                                                                       & \\
+         &                                  &  &          &  & \mid &  & \texttt{perform}~\textbf{\texttt{op}}\bktt{\overline{\sigma}}~e                                      & \\
          &                                  &  &          &  & \mid &  & \texttt{handle}~e~\texttt{with}~h                                                                    & \\
-         & \text{Handler}                   &  & h        &  & ::=  &  & \{ \texttt{return}~x \mapsto e \}                                                                    & \\
-         &                                  &  &          &  & \mid &  & \{ \textbf{\texttt{op}}(x; k) \mapsto e \}~\uplus~h                                                  & \\
+         & \text{Handler}                   &  & h        &  & ::=  &  & \{ \texttt{return}~x_r \mapsto e_r,\ \textbf{\texttt{op}}(x; k) \mapsto e_{\mathsf{op}} \} & \\
          & \text{Kind}                      &  & \kappa   &  & ::=  &  & \bold{T}                                                                                             & \\
-         &                                  &  &          &  & \mid &  & \bold{E}                                                                                             & \\
          & \text{Type}                      &  & \sigma   &  & ::=  &  & \alpha                                                                                               & \\
          &                                  &  &          &  & \mid &  & \sigma \rightarrow~\epsilon~\sigma                                                                   & \\
          &                                  &  &          &  & \mid &  & \forall \alpha :: \kappa. \sigma                                                                     & \\
-         & \text{Effect Sets}               &  & \epsilon &  & ::=  &  & \{\textbf{\texttt{op}}_{1}, \textbf{\texttt{op}}_{2}, \ldots, \textbf{\texttt{op}}_{n}\}             & \\
+         & \text{Effect Sets}               &  & \epsilon &  & ::=  &  & \varnothing                                                                                           & \\
+         &                                  &  &          &  & \mid &  & \{\textbf{\texttt{op}}_{1}, \textbf{\texttt{op}}_{2}, \ldots, \textbf{\texttt{op}}_{n}\}\quad(n\geq 1) & \\
          & \text{Effect Signature}          &  & \Sigma   &  & ::=  &  & \bullet                                                                                              & \\
          &                                  &  &          &  & \mid &  & \textbf{\texttt{op}}: \forall \overline{\alpha :: \kappa}. \sigma \rightarrow \sigma ~\uplus~ \Sigma & \\
          & \text{Term Variable Environment} &  & \Gamma   &  & ::=  &  & \bullet                                                                                              & \\

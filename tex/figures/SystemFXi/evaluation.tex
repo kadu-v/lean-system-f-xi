@@ -1,43 +1,69 @@
-\begin{figure}[h]
-    \begin{tabular}{l}
-        \begin{minipage}{1.\linewidth{}}
-            \fbox{\ensuremath{e \longrightarrow e'}}
-        \end{minipage}
-    \end{tabular}
+\begin{figure}[p]
+    \small
+    \begin{align*}
+        E &::= \square
+             \mid E~e
+             \mid v~E
+             \mid E\bktt{\sigma}
+             \mid \texttt{perform}~\mathsf{op}
+                  \bktt{\overline{\sigma}}~E
+             \mid \texttt{handle}~E~\texttt{with}~h
+    \end{align*}
+    \caption{Evaluation contexts of System F$^{\xi}$}
+    \label{systemf:evaluation-contexts}
+\end{figure}
 
-    \begin{center}
-        \AxiomC{}
-        \RightLabel{[\textsc{EAppAbs}]}
-        \UnaryInfC{$(\lambda x: \sigma. e)~v \longrightarrow [x \mapsto v]e$}
-        \DisplayProof
-        \hspace{5pt}
-        \AxiomC{}
-        \RightLabel{[\textsc{ETAppAbs}]}
-        \UnaryInfC{$(\Lambda \alpha :: \kappa. e)\bktt{\sigma} \longrightarrow [\alpha \mapsto \sigma]e$}
-        \DisplayProof
-        \vspace{5pt}
-    \end{center}
+\begin{figure}[p]
+    \small
+    \noindent\fbox{$e\longrightarrow e'$}
 
-    \begin{center}
-        \AxiomC{$e_{1} \longrightarrow e'_{1}$}
-        \RightLabel{[\textsc{EApp1}]}
-        \UnaryInfC{$e_{1}~e_{2} \longrightarrow e'_{1}~e_{2}$}
-        \DisplayProof
-        \hspace{10pt}
-        \AxiomC{$e_{2} \longrightarrow e'_{2}$}
-        \RightLabel{[\textsc{EApp2}]}
-        \UnaryInfC{$e_{1}~e_{2} \longrightarrow e_{1}~e'_{2}$}
-        \DisplayProof
-        \vspace{5pt}
-    \end{center}
+    \medskip
+    \begin{gather*}
+        (\lambda x:\sigma.e)~v
+        \longrightarrow [x\mapsto v]e
+        \qquad\textsc{EAppAbs}
+        \\[6pt]
+        (\Lambda\alpha::\kappa.e)\bktt{\sigma}
+        \longrightarrow [\alpha\mapsto\sigma]e
+        \qquad\textsc{ETAppAbs}
+        \\[6pt]
+        \frac{(\texttt{return}~x_r\mapsto e_r)\in h}
+             {\texttt{handle}~v~\texttt{with}~h
+              \longrightarrow [x_r\mapsto v]e_r}
+        \qquad\textsc{EReturn}
+        \\[6pt]
+        \begin{gathered}
+        \texttt{handle}~
+          E[\texttt{perform}~\mathsf{op}
+             \bktt{\overline{\sigma}}~v]~
+          \texttt{with}~h
+        \longrightarrow
+          [k\mapsto k_E][x\mapsto v]
+          [\overline{\alpha}\mapsto\overline{\sigma}]
+          e_{\mathsf{op}}\\
+        (\mathsf{op}(x;k)\mapsto e_{\mathsf{op}})\in h,
+        \qquad\mathsf{op}\notin\mathbf{handled}(E),\\
+        k_E=\lambda y:
+          [\overline{\alpha}\mapsto\overline{\sigma}]\sigma_2.
+          \texttt{handle}~E[y]~\texttt{with}~h,\\
+        \Sigma(\mathsf{op})=
+          \forall\overline{\alpha::\kappa}.\sigma_1\to\sigma_2
+        \end{gathered}
+        \qquad\textsc{EPerform}
+        \\[6pt]
+        \frac{e\longrightarrow e'}{E[e]\longrightarrow E[e']}
+        \qquad\textsc{EContext}
+    \end{gather*}
+    \[\begin{gathered}
+        \dom{h}=\{\mathsf{op}\}\quad
+        \text{for }h=\{\texttt{return}~x_r\mapsto e_r,
+          \mathsf{op}(x;k)\mapsto e_{\mathsf{op}}\},
+        \\
+        \mathbf{handled}(\square)=\varnothing,\qquad
+        \mathbf{handled}(\texttt{handle}~E~\texttt{with}~h)
+          =\mathbf{handled}(E)\cup\dom{h}.
+    \end{gathered}\]
 
-    \begin{center}
-        \AxiomC{$e \longrightarrow e'$}
-        \RightLabel{[\textsc{ETApp}]}
-        \UnaryInfC{$e\bktt{\sigma} \longrightarrow e'\bktt{\sigma}$}
-        \DisplayProof
-    \end{center}
-
-    \caption{Evaluation rules of System F}
+    \caption{Evaluation rules of System F$^{\xi}$}
     \label{systemf:evaluation-rules}
 \end{figure}
