@@ -2,12 +2,13 @@
 \label{sec:systemfxi-safety}
 
 以下は Lean で形式化した命題のステートメントである．証明はここでは記さない．
+以下の命題に現れる項環境 $\Gamma$ の各型は，$\Delta$ の下で整形式とする．
 大域的シグネチャ $\Sigma$ は整形式とする．すなわち，各宣言
 $\Sigma(\mathsf{op})=
- \forall\overline{\alpha::\bold{T}}.
+ \forall\overline{\beta::\kappa}.
  \sigma_{\mathrm{arg}}\to\sigma_{\mathrm{res}}$
-の引数型と結果型は，宣言された型変数の下で kind $\bold{T}$ を持つ．
-型変数の改名・置換をそれぞれ $\rho_T$，$\tau_T$，
+の引数型と結果型は，宣言された型・効果変数の下で kind $\mathbf{T}$ を持つ．
+kind を保つ型・効果変数の同時改名・置換をそれぞれ $\rho$，$\tau$，
 項変数の改名・置換をそれぞれ $\rho_t$，$s_t$ と書く．
 置換はすべて，必要に応じて束縛変数を改名する捕獲回避置換とする．
 $\mathsf{Val}(e)$ は値判定，$E[e]$ は評価文脈への代入である．
@@ -40,48 +41,55 @@ $\Sigma$ における操作宣言・型引数の arity の一致を記録する�
 \]
 \end{lemma}
 
-\begin{lemma}[型変数の改名と置換]
+\begin{lemma}[型・効果変数の改名と置換]
 \label{lem:fxi-type-structural}
-$\rho_T$ が $\Delta$ の型変数を $\Delta'$ の型変数へ写し，
-$\tau_T$ が $\Delta$ の各型変数を $\Delta'$ で整形式な型へ写すとする．
+$\rho$ が $\Delta$ の変数を同じ kind の $\Delta'$ の変数へ写し，
+$\tau$ が $\Delta$ の各変数を $\Delta'$ で整形式な同じ kind の
+型または効果へ写すとする．
 このとき，次の各判定は保存される．
 \begin{align*}
-  \Delta\vdash\sigma::\bold{T}
+  \Delta\vdash\sigma::\mathbf{T}
     &\Longrightarrow
-      \Delta'\vdash\rho_T(\sigma)::\bold{T},
+      \Delta'\vdash\rho(\sigma)::\mathbf{T},
       \quad
-      \Delta'\vdash\sigma[\tau_T]::\bold{T},\\
+      \Delta'\vdash\sigma[\tau]::\mathbf{T},\\
+  \Delta\vdash\epsilon::\mathbf{E}
+    &\Longrightarrow
+      \Delta'\vdash\rho(\epsilon)::\mathbf{E},
+      \quad
+      \Delta'\vdash\epsilon[\tau]::\mathbf{E},\\
   \Delta\vdash\sigma_1<:\sigma_2
     &\Longrightarrow
-      \Delta'\vdash\rho_T(\sigma_1)<:\rho_T(\sigma_2),
+      \Delta'\vdash\rho(\sigma_1)<:\rho(\sigma_2),
       \quad
-      \Delta'\vdash\sigma_1[\tau_T]<:\sigma_2[\tau_T].
+      \Delta'\vdash\sigma_1[\tau]<:\sigma_2[\tau].
 \end{align*}
 \end{lemma}
 
-\begin{lemma}[型付き項の型変数改名・置換]
+\begin{lemma}[型付き項の型・効果変数改名・置換]
 \label{lem:fxi-typing-type-substitution}
 補題 \ref{lem:fxi-type-structural} と同じ条件の下で，
 \begin{align*}
   \Delta\mid\Gamma\vdash e:\sigma\mid\epsilon
   &\Longrightarrow
-    \Delta'\mid\rho_T(\Gamma)\vdash
-      \rho_T(e):\rho_T(\sigma)\mid\epsilon,\\
+    \Delta'\mid\rho(\Gamma)\vdash
+      \rho(e):\rho(\sigma)\mid\rho(\epsilon),\\
   \Delta\mid\Gamma\vdash e:\sigma\mid\epsilon
   &\Longrightarrow
-    \Delta'\mid\Gamma[\tau_T]\vdash
-      e[\tau_T]:\sigma[\tau_T]\mid\epsilon.
+    \Delta'\mid\Gamma[\tau]\vdash
+      e[\tau]:\sigma[\tau]\mid\epsilon[\tau].
 \end{align*}
-特に，$\Delta\vdash\theta::\bold{T}$ なら
+特に，$\Delta\vdash\theta::\kappa$ なら
 \[
-  \Delta,\alpha::\bold{T}\mid\Gamma
+  \Delta,\beta::\kappa\mid\Gamma
     \vdash e:\sigma\mid\epsilon
   \quad\land\quad
-  \alpha\notin\ftv{\Gamma}
+  \beta\notin\mathsf{FV}(\Gamma)
   \Longrightarrow
   \Delta\mid\Gamma\vdash
-    [\alpha\mapsto\theta]e:
-    [\alpha\mapsto\theta]\sigma\mid\epsilon.
+    [\beta\mapsto\theta]e:
+    [\beta\mapsto\theta]\sigma\mid
+      [\beta\mapsto\theta]\epsilon.
 \]
 \end{lemma}
 
@@ -112,34 +120,38 @@ $\Delta\mid\Gamma'\vdash s_t(x):\sigma\mid\varnothing$
 
 \begin{proposition}[置換に関する補助等式]
 \label{prop:fxi-substitution-equations}
-型の恒等改名・恒等置換，改名と置換の合成について，
+型と効果の恒等改名・恒等置換，改名と置換の合成について，
 \begin{align*}
-  \operatorname{id}_T(\sigma)&=\sigma,
-  &\sigma[\operatorname{id}_T]&=\sigma,\\
-  \rho'_T(\rho_T(\sigma))
-    &=(\rho'_T\circ\rho_T)(\sigma),
-  &(\sigma[\tau_T])[\upsilon_T]
-    &=\sigma[\alpha\mapsto(\tau_T(\alpha))[\upsilon_T]],\\
-  \rho_T(\sigma[\tau_T])
-    &=\sigma[\alpha\mapsto\rho_T(\tau_T(\alpha))],
-  &(\rho_T(\sigma))[\tau_T]
-    &=\sigma[\alpha\mapsto\tau_T(\rho_T(\alpha))].
+  \operatorname{id}(\sigma)&=\sigma,
+  &\sigma[\operatorname{id}]&=\sigma,\\
+  \rho'(\rho(\sigma))
+    &=(\rho'\circ\rho)(\sigma),
+  &(\sigma[\tau])[\upsilon]
+    &=\sigma[\beta\mapsto(\tau(\beta))[\upsilon]],\\
+  \rho(\sigma[\tau])
+    &=\sigma[\beta\mapsto\rho(\tau(\beta))],
+  &(\rho(\sigma))[\tau]
+    &=\sigma[\beta\mapsto\tau(\rho(\beta))].
 \end{align*}
 束縛子の下の置換も捕獲を避けて行う．
+同じ等式は効果式にも成り立つ．特に
+$\mu[\mu\mapsto\epsilon]=\epsilon$，
+$(\epsilon_1\cup\epsilon_2)[\tau]
+ =\epsilon_1[\tau]\cup\epsilon_2[\tau]$ である．
 操作宣言の型を型引数で具体化する置換は，
 外側の改名・置換と交換する．
 \end{proposition}
 
 \begin{lemma}[宣言型の具体化]
 \label{lem:fxi-declaration-instantiation}
-$\Delta,\overline{\alpha::\bold{T}}\vdash
-\delta::\bold{T}$ かつ
-$\Delta\vdash\overline{\theta}::\overline{\bold{T}}$
+$\Delta,\overline{\beta::\kappa}\vdash
+\delta::\mathbf{T}$ かつ
+$\Delta\vdash\overline{\theta}::\overline{\kappa}$
 ならば，
 \[
   \Delta\vdash
-    [\overline{\alpha}\mapsto\overline{\theta}]
-      \delta::\bold{T}.
+    [\overline{\beta}\mapsto\overline{\theta}]
+      \delta::\mathbf{T}.
 \]
 \end{lemma}
 
@@ -170,10 +182,10 @@ $\Delta\vdash\overline{\theta}::\overline{\bold{T}}$
   \mathsf{Val}(v)
   \ \land\
   \varnothing\mid\varnothing\vdash
-    v:(\forall\alpha::\bold{T}.\sigma)
+    v:(\forall\beta::\kappa.\sigma)
       \mid\epsilon_v
   &\Longrightarrow
-    \exists e.\ v=\Lambda\alpha::\bold{T}.e.
+    \exists e.\ v=\Lambda\beta::\kappa.e.
 \end{align*}
 \end{lemma}
 
@@ -193,17 +205,17 @@ $\Delta\mid\Gamma\vdash
   \end{aligned}
 \]
 また，$\Delta\mid\Gamma\vdash
-\Lambda\alpha::\bold{T}.e:
-(\forall\alpha::\bold{T}.\sigma)\mid\epsilon_v$
-ならば，$\alpha\notin\ftv{\Gamma}$ であり，
+\Lambda\beta::\kappa.e:
+(\forall\beta::\kappa.\sigma)\mid\epsilon_v$
+ならば，$\beta\notin\mathsf{FV}(\Gamma)$ であり，
 ある $\sigma_0$ について
 \[
   \begin{aligned}
-    \Delta,\alpha::\bold{T}\mid\Gamma
+    \Delta,\beta::\kappa\mid\Gamma
       &\vdash e:\sigma_0\mid\varnothing,\\
     \Delta\vdash
-      (\forall\alpha::\bold{T}.\sigma_0)
-      &<: (\forall\alpha::\bold{T}.\sigma).
+      (\forall\beta::\kappa.\sigma_0)
+      &<: (\forall\beta::\kappa.\sigma).
   \end{aligned}
 \]
 \end{lemma}
@@ -211,7 +223,7 @@ $\Delta\mid\Gamma\vdash
 \begin{lemma}[操作呼出しの型付けの反転]
 \label{lem:fxi-perform-inversion}
 $\Sigma(\mathsf{op})=
-\forall\overline{\alpha::\bold{T}}.
+\forall\overline{\beta::\kappa}.
 \sigma_{\mathrm{arg}}\to\sigma_{\mathrm{res}}$ とする．
 \[
   \Delta\mid\Gamma\vdash
@@ -219,16 +231,16 @@ $\Sigma(\mathsf{op})=
       \bktt{\overline{\theta}}~v:
       \sigma\mid\epsilon
 \]
-ならば，$\Delta\vdash\overline{\theta}::\overline{\bold{T}}$ であり，
+ならば，$\Delta\vdash\overline{\theta}::\overline{\kappa}$ であり，
 ある $\epsilon_{\mathrm{arg}}$ について
 \[
   \Delta\mid\Gamma\vdash
-    v:[\overline{\alpha}\mapsto\overline{\theta}]
+    v:[\overline{\beta}\mapsto\overline{\theta}]
       \sigma_{\mathrm{arg}}
       \mid\epsilon_{\mathrm{arg}},
   \qquad
   \Delta\vdash
-    [\overline{\alpha}\mapsto\overline{\theta}]
+    [\overline{\beta}\mapsto\overline{\theta}]
       \sigma_{\mathrm{res}}<:\sigma,
   \qquad
   \mathsf{op}\in\epsilon.
@@ -264,20 +276,20 @@ $h=\{\texttt{return}~x_r\mapsto e_r,\,
   \mathsf{op}(x;k)\mapsto e_{\mathsf{op}}\}$ とし，
 \textsc{THandler} の前提が成り立つとする．
 $\Sigma(\mathsf{op})=
-\forall\overline{\alpha::\bold{T}}.
+\forall\overline{\beta::\kappa}.
 \sigma_{\mathrm{arg}}\to\sigma_{\mathrm{res}}$，
-$\Delta\vdash\overline{\theta}::\overline{\bold{T}}$ のとき，
+$\Delta\vdash\overline{\theta}::\overline{\kappa}$ のとき，
 \[
   \Delta\mid
   \Gamma,\,
-  x:[\overline{\alpha}\mapsto\overline{\theta}]
+  x:[\overline{\beta}\mapsto\overline{\theta}]
       \sigma_{\mathrm{arg}},\,
-  k:([\overline{\alpha}\mapsto\overline{\theta}]
+  k:([\overline{\beta}\mapsto\overline{\theta}]
       \sigma_{\mathrm{res}})
       \rightarrow~\epsilon_{\mathrm{out}}~
       \sigma_{\mathrm{out}}
   \vdash
-  [\overline{\alpha}\mapsto\overline{\theta}]
+  [\overline{\beta}\mapsto\overline{\theta}]
     e_{\mathsf{op}}:
     \sigma_{\mathrm{out}}\mid\epsilon_{\mathrm{out}}.
 \]
@@ -295,7 +307,7 @@ $\Delta\mid\Gamma\vdash
 \[
   k_E =
     \lambda y:
-      [\overline{\alpha}\mapsto\overline{\theta}]
+      [\overline{\beta}\mapsto\overline{\theta}]
         \sigma_{\mathrm{res}}.
     \texttt{handle}~E[y]~\texttt{with}~h
 \]
@@ -303,7 +315,7 @@ $\Delta\mid\Gamma\vdash
 \[
   \Delta\mid\Gamma\vdash k_E:
   \bigl(
-    [\overline{\alpha}\mapsto\overline{\theta}]
+    [\overline{\beta}\mapsto\overline{\theta}]
       \sigma_{\mathrm{res}}
     \rightarrow~\epsilon_{\mathrm{out}}~
       \sigma_{\mathrm{out}}

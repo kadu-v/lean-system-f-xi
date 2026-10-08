@@ -4,9 +4,9 @@
         E &::= \square
              \mid E~e
              \mid v~E
-             \mid E\bktt{\sigma}
+             \mid E\bktt{\theta}
              \mid \texttt{perform}~\mathsf{op}
-                  \bktt{\overline{\sigma}}~E
+                  \bktt{\overline{\theta}}~E
              \mid \texttt{handle}~E~\texttt{with}~h
     \end{align*}
     \caption{Evaluation contexts of System F$^{\xi}$}
@@ -23,8 +23,8 @@
         \longrightarrow [x\mapsto v]e
         \qquad\textsc{EAppAbs}
         \\[6pt]
-        (\Lambda\alpha::\kappa.e)\bktt{\sigma}
-        \longrightarrow [\alpha\mapsto\sigma]e
+        (\Lambda\beta::\kappa.e)\bktt{\theta}
+        \longrightarrow [\beta\mapsto\theta]e
         \qquad\textsc{ETAppAbs}
         \\[6pt]
         \frac{(\texttt{return}~x_r\mapsto e_r)\in h}
@@ -35,19 +35,19 @@
         \begin{gathered}
         \texttt{handle}~
           E[\texttt{perform}~\mathsf{op}
-             \bktt{\overline{\sigma}}~v]~
+             \bktt{\overline{\theta}}~v]~
           \texttt{with}~h
         \longrightarrow
           [k\mapsto k_E][x\mapsto v]
-          [\overline{\alpha}\mapsto\overline{\sigma}]
+          [\overline{\beta}\mapsto\overline{\theta}]
           e_{\mathsf{op}}\\
         (\mathsf{op}(x;k)\mapsto e_{\mathsf{op}})\in h,
         \qquad\mathsf{op}\notin\mathbf{handled}(E),\\
         k_E=\lambda y:
-          [\overline{\alpha}\mapsto\overline{\sigma}]\sigma_2.
+          [\overline{\beta}\mapsto\overline{\theta}]\sigma_2.
           \texttt{handle}~E[y]~\texttt{with}~h,\\
         \Sigma(\mathsf{op})=
-          \forall\overline{\alpha::\kappa}.\sigma_1\to\sigma_2
+          \forall\overline{\beta::\kappa}.\sigma_1\to\sigma_2
         \end{gathered}
         \qquad\textsc{EPerform}
         \\[6pt]

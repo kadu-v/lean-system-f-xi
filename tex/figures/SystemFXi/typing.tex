@@ -21,33 +21,33 @@
               \sigma_2\mid(\epsilon_0\cup\epsilon_1\cup\epsilon_2)}
              \;\textsc{TApp}
         \\[8pt]
-        \frac{\Delta,\alpha::\kappa \mid \Gamma\vdash e:\sigma\mid\varnothing
-              \qquad\alpha\notin\ftv{\Gamma}}
+        \frac{\Delta,\beta::\kappa \mid \Gamma\vdash e:\sigma\mid\varnothing
+              \qquad\beta\notin\mathsf{FV}(\Gamma)}
              {\Delta \mid \Gamma\vdash
-              \Lambda\alpha::\kappa.e:
-              (\forall\alpha::\kappa.\sigma)\mid\varnothing}
+              \Lambda\beta::\kappa.e:
+              (\forall\beta::\kappa.\sigma)\mid\varnothing}
              \;\textsc{TTAbs}
         \\[8pt]
         \frac{\Delta \mid \Gamma\vdash e:
-              (\forall\alpha::\kappa.\sigma)\mid\epsilon
-              \qquad\Delta\vdash\sigma'::\kappa}
-             {\Delta \mid \Gamma\vdash e\bktt{\sigma'}:
-              [\alpha\mapsto\sigma']\sigma\mid\epsilon}
+              (\forall\beta::\kappa.\sigma)\mid\epsilon
+              \qquad\Delta\vdash\theta::\kappa}
+             {\Delta \mid \Gamma\vdash e\bktt{\theta}:
+              [\beta\mapsto\theta]\sigma\mid\epsilon}
              \;\textsc{TTApp}
         \\[8pt]
         \frac{
           \begin{gathered}
           \Sigma(\mathsf{op})=
-              \forall\overline{\alpha::\kappa}.\sigma_1\to\sigma_2
+              \forall\overline{\beta::\kappa}.\sigma_1\to\sigma_2
           \qquad
-          \Delta\vdash\overline{\sigma'}::\overline{\kappa}\\
+          \Delta\vdash\overline{\theta}::\overline{\kappa}\\
           \Delta \mid \Gamma\vdash e:
-              [\overline{\alpha}\mapsto\overline{\sigma'}]\sigma_1
+              [\overline{\beta}\mapsto\overline{\theta}]\sigma_1
               \mid\epsilon
           \end{gathered}}
              {\Delta \mid \Gamma\vdash
-              \texttt{perform}~\mathsf{op}\bktt{\overline{\sigma'}}~e:
-              [\overline{\alpha}\mapsto\overline{\sigma'}]\sigma_2
+              \texttt{perform}~\mathsf{op}\bktt{\overline{\theta}}~e:
+              [\overline{\beta}\mapsto\overline{\theta}]\sigma_2
               \mid(\epsilon\cup\{\mathsf{op}\})}
              \;\textsc{TPerform}
         \\[8pt]
@@ -63,6 +63,7 @@
         \\[8pt]
         \frac{\Delta \mid \Gamma\vdash e:\sigma\mid\epsilon
               \qquad\Delta\vdash\sigma<:\sigma'
+              \qquad\Delta\vdash\epsilon'::\mathbf{E}
               \qquad\epsilon\subseteq\epsilon'}
              {\Delta \mid \Gamma\vdash e:\sigma'\mid\epsilon'}
              \;\textsc{TSub}
@@ -85,10 +86,10 @@
           \epsilon_{\mathrm{in}}\subseteq
              \{\mathsf{op}\}\cup\epsilon_{\mathrm{out}}\\
           \Sigma(\mathsf{op})=
-             \forall\overline{\alpha::\kappa}.\sigma_1\to\sigma_2\\
+             \forall\overline{\beta::\kappa}.\sigma_1\to\sigma_2\\
           \Delta \mid \Gamma,x_r:\sigma_{\mathrm{in}}
              \vdash e_r:\sigma_{\mathrm{out}}\mid\epsilon_{\mathrm{out}}\\
-          \Delta,\overline{\alpha::\kappa} \mid \Gamma_{\mathrm{op}}
+          \Delta,\overline{\beta::\kappa} \mid \Gamma_{\mathrm{op}}
              \vdash e_{\mathsf{op}}:
              \sigma_{\mathrm{out}}\mid\epsilon_{\mathrm{out}}
           \end{gathered}}
