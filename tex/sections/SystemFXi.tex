@@ -2,8 +2,10 @@
 
 System F$^{\xi}$ の構文，カインド規則，型規則，評価文脈，簡約規則を示す．
 型変数 $\alpha$ は kind $\mathbf{T}$，効果変数 $\mu$ は kind $\mathbf{E}$ を持つ．
-$\beta$ はどちらの変数も表し，型引数 $\theta$ は対応する kind の
-型 $\sigma$ または効果 $\epsilon$ である．従って
+$\beta::\kappa$ は $\alpha::\mathbf{T}$ または
+$\mu::\mathbf{E}$ を表す規則中の略記である．
+多相引数 $\tau$ は対応する kind の型 $\sigma$ または効果 $\epsilon$ である．
+従って
 $\forall\mu::\mathbf{E}.\sigma$ と $\Lambda\mu::\mathbf{E}.e$ により
 効果多相性を表せる．操作宣言も両 kind の変数を量化できる．
 例えば，$\mu::\mathbf{E}$ の下で

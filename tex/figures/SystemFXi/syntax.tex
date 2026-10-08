@@ -2,18 +2,20 @@
     \begin{align*}
          & \text{Value}                     &  & v        &  & ::=  &  & x                                                                                                    & \\
          &                                  &  &          &  & \mid &  & \lambda x : \sigma. e                                                                                & \\
-         &                                  &  &          &  & \mid &  & \Lambda \beta :: \kappa. e                                                                           & \\
+         &                                  &  &          &  & \mid &  & \Lambda \alpha :: \mathbf{T}. e                                                               & \\
+         &                                  &  &          &  & \mid &  & \Lambda \mu :: \mathbf{E}. e                                                                  & \\
          & \text{Expression}                &  & e        &  & ::=  &  & v                                                                                                    & \\
          &                                  &  &          &  & \mid &  & e~e                                                                                                  & \\
-         &                                  &  &          &  & \mid &  & e\bktt{\theta}                                                                                        & \\
-         &                                  &  &          &  & \mid &  & \texttt{perform}~\textbf{\texttt{op}}\bktt{\overline{\theta}}~e                                       & \\
+         &                                  &  &          &  & \mid &  & e\bktt{\tau}                                                                                        & \\
+         &                                  &  &          &  & \mid &  & \texttt{perform}~\textbf{\texttt{op}}\bktt{\overline{\tau}}~e                                       & \\
          &                                  &  &          &  & \mid &  & \texttt{handle}~e~\texttt{with}~h                                                                    & \\
          & \text{Handler}                   &  & h        &  & ::=  &  & \{ \texttt{return}~x_r \mapsto e_r,\ \textbf{\texttt{op}}(x; k) \mapsto e_{\mathsf{op}} \} & \\
          & \text{Kind}                      &  & \kappa   &  & ::=  &  & \mathbf{T}\mid\mathbf{E}                                                                                 & \\
-         & \text{Type argument}             &  & \theta   &  & ::=  &  & \sigma\mid\epsilon                                                                                   & \\
+         & \text{Polymorphic argument}      &  & \tau   &  & ::=  &  & \sigma\mid\epsilon                                                                                   & \\
          & \text{Type}                      &  & \sigma   &  & ::=  &  & \alpha                                                                                               & \\
          &                                  &  &          &  & \mid &  & \sigma \rightarrow~\epsilon~\sigma                                                                   & \\
-         &                                  &  &          &  & \mid &  & \forall \beta :: \kappa. \sigma                                                                      & \\
+         &                                  &  &          &  & \mid &  & \forall \alpha :: \mathbf{T}. \sigma                                                          & \\
+         &                                  &  &          &  & \mid &  & \forall \mu :: \mathbf{E}. \sigma                                                             & \\
          & \text{Effects}                   &  & \epsilon &  & ::=  &  & \varnothing                                                                                           & \\
          &                                  &  &          &  & \mid &  & \{\textbf{\texttt{op}}\}\mid\mu\mid\epsilon\cup\epsilon                                             & \\
          & \text{Effect Signature}          &  & \Sigma   &  & ::=  &  & \bullet                                                                                              & \\
@@ -21,7 +23,8 @@
          & \text{Term Variable Environment} &  & \Gamma   &  & ::=  &  & \bullet                                                                                              & \\
          &                                  &  &          &  & \mid &  & x: \sigma, \Gamma                                                                                    & \\
          & \text{Kind Environment}          &  & \Delta   &  & ::=  &  & \bullet                                                                                              & \\
-         &                                  &  &          &  & \mid &  & \beta:: \kappa, \Delta                                                                               &
+         &                                  &  &          &  & \mid &  & \alpha::\mathbf{T},\Delta                                                                       & \\
+         &                                  &  &          &  & \mid &  & \mu::\mathbf{E},\Delta
     \end{align*}
     \caption{Syntax of System F$^{\xi}$}
     \label{systemf:syntax}

@@ -8,7 +8,7 @@ $\Sigma(\mathsf{op})=
  \forall\overline{\beta::\kappa}.
  \sigma_{\mathrm{arg}}\to\sigma_{\mathrm{res}}$
 の引数型と結果型は，宣言された型・効果変数の下で kind $\mathbf{T}$ を持つ．
-kind を保つ型・効果変数の同時改名・置換をそれぞれ $\rho$，$\tau$，
+kind を保つ型・効果変数の同時改名・置換をそれぞれ $\rho$，$\chi$，
 項変数の改名・置換をそれぞれ $\rho_t$，$s_t$ と書く．
 置換はすべて，必要に応じて束縛変数を改名する捕獲回避置換とする．
 $\mathsf{Val}(e)$ は値判定，$E[e]$ は評価文脈への代入である．
@@ -16,9 +16,9 @@ $\mathsf{Val}(e)$ は値判定，$E[e]$ は評価文脈への代入である．
 \[
   \mathsf{Unhandled}(e,\mathsf{op})
   \quad\Longleftrightarrow\quad
-  \exists E,\overline{\theta},v.\quad
+  \exists E,\overline{\tau},v.\quad
     e=E[\texttt{perform}~\mathsf{op}
-      \bktt{\overline{\theta}}~v]
+      \bktt{\overline{\tau}}~v]
     \ \land\ \mathsf{Val}(v)
     \ \land\;
     \mathsf{op}\notin\mathbf{handled}(E)
@@ -44,7 +44,7 @@ $\Sigma$ における操作宣言・型引数の arity の一致を記録する�
 \begin{lemma}[型・効果変数の改名と置換]
 \label{lem:fxi-type-structural}
 $\rho$ が $\Delta$ の変数を同じ kind の $\Delta'$ の変数へ写し，
-$\tau$ が $\Delta$ の各変数を $\Delta'$ で整形式な同じ kind の
+$\chi$ が $\Delta$ の各変数を $\Delta'$ で整形式な同じ kind の
 型または効果へ写すとする．
 このとき，次の各判定は保存される．
 \begin{align*}
@@ -52,17 +52,17 @@ $\tau$ が $\Delta$ の各変数を $\Delta'$ で整形式な同じ kind の
     &\Longrightarrow
       \Delta'\vdash\rho(\sigma)::\mathbf{T},
       \quad
-      \Delta'\vdash\sigma[\tau]::\mathbf{T},\\
+      \Delta'\vdash\sigma[\chi]::\mathbf{T},\\
   \Delta\vdash\epsilon::\mathbf{E}
     &\Longrightarrow
       \Delta'\vdash\rho(\epsilon)::\mathbf{E},
       \quad
-      \Delta'\vdash\epsilon[\tau]::\mathbf{E},\\
+      \Delta'\vdash\epsilon[\chi]::\mathbf{E},\\
   \Delta\vdash\sigma_1<:\sigma_2
     &\Longrightarrow
       \Delta'\vdash\rho(\sigma_1)<:\rho(\sigma_2),
       \quad
-      \Delta'\vdash\sigma_1[\tau]<:\sigma_2[\tau].
+      \Delta'\vdash\sigma_1[\chi]<:\sigma_2[\chi].
 \end{align*}
 \end{lemma}
 
@@ -76,10 +76,10 @@ $\tau$ が $\Delta$ の各変数を $\Delta'$ で整形式な同じ kind の
       \rho(e):\rho(\sigma)\mid\rho(\epsilon),\\
   \Delta\mid\Gamma\vdash e:\sigma\mid\epsilon
   &\Longrightarrow
-    \Delta'\mid\Gamma[\tau]\vdash
-      e[\tau]:\sigma[\tau]\mid\epsilon[\tau].
+    \Delta'\mid\Gamma[\chi]\vdash
+      e[\chi]:\sigma[\chi]\mid\epsilon[\chi].
 \end{align*}
-特に，$\Delta\vdash\theta::\kappa$ なら
+特に，$\Delta\vdash\tau::\kappa$ なら
 \[
   \Delta,\beta::\kappa\mid\Gamma
     \vdash e:\sigma\mid\epsilon
@@ -87,9 +87,9 @@ $\tau$ が $\Delta$ の各変数を $\Delta'$ で整形式な同じ kind の
   \beta\notin\mathsf{FV}(\Gamma)
   \Longrightarrow
   \Delta\mid\Gamma\vdash
-    [\beta\mapsto\theta]e:
-    [\beta\mapsto\theta]\sigma\mid
-      [\beta\mapsto\theta]\epsilon.
+    [\beta\mapsto\tau]e:
+    [\beta\mapsto\tau]\sigma\mid
+      [\beta\mapsto\tau]\epsilon.
 \]
 \end{lemma}
 
@@ -126,18 +126,18 @@ $\Delta\mid\Gamma'\vdash s_t(x):\sigma\mid\varnothing$
   &\sigma[\operatorname{id}]&=\sigma,\\
   \rho'(\rho(\sigma))
     &=(\rho'\circ\rho)(\sigma),
-  &(\sigma[\tau])[\upsilon]
-    &=\sigma[\beta\mapsto(\tau(\beta))[\upsilon]],\\
-  \rho(\sigma[\tau])
-    &=\sigma[\beta\mapsto\rho(\tau(\beta))],
-  &(\rho(\sigma))[\tau]
-    &=\sigma[\beta\mapsto\tau(\rho(\beta))].
+  &(\sigma[\chi])[\upsilon]
+    &=\sigma[\beta\mapsto(\chi(\beta))[\upsilon]],\\
+  \rho(\sigma[\chi])
+    &=\sigma[\beta\mapsto\rho(\chi(\beta))],
+  &(\rho(\sigma))[\chi]
+    &=\sigma[\beta\mapsto\chi(\rho(\beta))].
 \end{align*}
 束縛子の下の置換も捕獲を避けて行う．
 同じ等式は効果式にも成り立つ．特に
 $\mu[\mu\mapsto\epsilon]=\epsilon$，
-$(\epsilon_1\cup\epsilon_2)[\tau]
- =\epsilon_1[\tau]\cup\epsilon_2[\tau]$ である．
+$(\epsilon_1\cup\epsilon_2)[\chi]
+ =\epsilon_1[\chi]\cup\epsilon_2[\chi]$ である．
 操作宣言の型を型引数で具体化する置換は，
 外側の改名・置換と交換する．
 \end{proposition}
@@ -146,11 +146,11 @@ $(\epsilon_1\cup\epsilon_2)[\tau]
 \label{lem:fxi-declaration-instantiation}
 $\Delta,\overline{\beta::\kappa}\vdash
 \delta::\mathbf{T}$ かつ
-$\Delta\vdash\overline{\theta}::\overline{\kappa}$
+$\Delta\vdash\overline{\tau}::\overline{\kappa}$
 ならば，
 \[
   \Delta\vdash
-    [\overline{\beta}\mapsto\overline{\theta}]
+    [\overline{\beta}\mapsto\overline{\tau}]
       \delta::\mathbf{T}.
 \]
 \end{lemma}
@@ -228,19 +228,19 @@ $\Sigma(\mathsf{op})=
 \[
   \Delta\mid\Gamma\vdash
     \texttt{perform}~\mathsf{op}
-      \bktt{\overline{\theta}}~v:
+      \bktt{\overline{\tau}}~v:
       \sigma\mid\epsilon
 \]
-ならば，$\Delta\vdash\overline{\theta}::\overline{\kappa}$ であり，
+ならば，$\Delta\vdash\overline{\tau}::\overline{\kappa}$ であり，
 ある $\epsilon_{\mathrm{arg}}$ について
 \[
   \Delta\mid\Gamma\vdash
-    v:[\overline{\beta}\mapsto\overline{\theta}]
+    v:[\overline{\beta}\mapsto\overline{\tau}]
       \sigma_{\mathrm{arg}}
       \mid\epsilon_{\mathrm{arg}},
   \qquad
   \Delta\vdash
-    [\overline{\beta}\mapsto\overline{\theta}]
+    [\overline{\beta}\mapsto\overline{\tau}]
       \sigma_{\mathrm{res}}<:\sigma,
   \qquad
   \mathsf{op}\in\epsilon.
@@ -278,18 +278,18 @@ $h=\{\texttt{return}~x_r\mapsto e_r,\,
 $\Sigma(\mathsf{op})=
 \forall\overline{\beta::\kappa}.
 \sigma_{\mathrm{arg}}\to\sigma_{\mathrm{res}}$，
-$\Delta\vdash\overline{\theta}::\overline{\kappa}$ のとき，
+$\Delta\vdash\overline{\tau}::\overline{\kappa}$ のとき，
 \[
   \Delta\mid
   \Gamma,\,
-  x:[\overline{\beta}\mapsto\overline{\theta}]
+  x:[\overline{\beta}\mapsto\overline{\tau}]
       \sigma_{\mathrm{arg}},\,
-  k:([\overline{\beta}\mapsto\overline{\theta}]
+  k:([\overline{\beta}\mapsto\overline{\tau}]
       \sigma_{\mathrm{res}})
       \rightarrow~\epsilon_{\mathrm{out}}~
       \sigma_{\mathrm{out}}
   \vdash
-  [\overline{\beta}\mapsto\overline{\theta}]
+  [\overline{\beta}\mapsto\overline{\tau}]
     e_{\mathsf{op}}:
     \sigma_{\mathrm{out}}\mid\epsilon_{\mathrm{out}}.
 \]
@@ -299,7 +299,7 @@ $\Delta\vdash\overline{\theta}::\overline{\kappa}$ のとき，
 \label{lem:fxi-resumption}
 $\Delta\mid\Gamma\vdash
 \texttt{handle}~
- E[\texttt{perform}~\mathsf{op}\bktt{\overline{\theta}}~v]
+ E[\texttt{perform}~\mathsf{op}\bktt{\overline{\tau}}~v]
  \texttt{with}~h:
  \sigma_{\mathrm{out}}\mid\epsilon_{\mathrm{out}}$
 とし，$\Sigma(\mathsf{op})$ は補題
@@ -307,7 +307,7 @@ $\Delta\mid\Gamma\vdash
 \[
   k_E =
     \lambda y:
-      [\overline{\beta}\mapsto\overline{\theta}]
+      [\overline{\beta}\mapsto\overline{\tau}]
         \sigma_{\mathrm{res}}.
     \texttt{handle}~E[y]~\texttt{with}~h
 \]
@@ -315,7 +315,7 @@ $\Delta\mid\Gamma\vdash
 \[
   \Delta\mid\Gamma\vdash k_E:
   \bigl(
-    [\overline{\beta}\mapsto\overline{\theta}]
+    [\overline{\beta}\mapsto\overline{\tau}]
       \sigma_{\mathrm{res}}
     \rightarrow~\epsilon_{\mathrm{out}}~
       \sigma_{\mathrm{out}}
@@ -360,10 +360,10 @@ $\varnothing\mid\varnothing\vdash e:\sigma\mid\epsilon$
   \quad\lor\quad
   \exists e'.\ e\longrightarrow e'
   \quad\lor\quad
-  \exists E,\mathsf{op},\overline{\theta},v.\quad
+  \exists E,\mathsf{op},\overline{\tau},v.\quad
     \begin{gathered}
       e=E[\texttt{perform}~\mathsf{op}
-          \bktt{\overline{\theta}}~v],\\
+          \bktt{\overline{\tau}}~v],\\
       \mathsf{Val}(v),\quad
       \mathsf{op}\notin\mathbf{handled}(E),\quad
       \mathsf{op}\in\epsilon.
@@ -416,10 +416,10 @@ $\varnothing\mid\varnothing\vdash e:\sigma\mid\epsilon$
   \quad\lor\quad
   \exists e''.\ e'\longrightarrow e''
   \quad\lor\quad
-  \exists E,\mathsf{op},\overline{\theta},v.\quad
+  \exists E,\mathsf{op},\overline{\tau},v.\quad
     \begin{gathered}
       e'=E[\texttt{perform}~\mathsf{op}
-           \bktt{\overline{\theta}}~v],\\
+           \bktt{\overline{\tau}}~v],\\
       \mathsf{Val}(v),\quad
       \mathsf{op}\notin\mathbf{handled}(E),\quad
       \mathsf{op}\in\epsilon.
